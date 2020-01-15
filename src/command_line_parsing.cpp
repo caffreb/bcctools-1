@@ -42,6 +42,11 @@ void addOptionsWhitelist(ArgumentParser & parser, Options & options)
     setDefaultValue(parser, "bc-len", options.bcLength);
     setMinValue(parser, "bc-len", "1");
     setAdvanced(parser, "bc-len");
+
+    addOption(parser, ArgParseOption("l", "Layout", "Type of barcode layout.", ArgParseArgument::STRING));
+    setValidValues(parser, "Layout", "10x stFLR custom");
+    setDefaultValue(parser, "Layout", "10x");
+    addOption(parser, ArgParseOption("x", "customLayout", "Layout of custom barcodes. Use b s and r in tandem with numbers and commas.", ArgParseArgument::STRING));
 }
 
 void addAdvancedOptionsWhitelist(ArgumentParser & /*parser*/, Options & /*options*/)
@@ -68,6 +73,10 @@ void setupParserWhitelist(ArgumentParser & parser, Options & options)
     setValidValues(arg1, "fq fastq FQ FASTQ fq.gz fastq.gz FQ.gz FASTQ.gz");
     addArgument(parser, arg1);
 
+    ArgParseArgument arg2(ArgParseArgument::STRING, "Layout", false);
+    setHelpText(arg2, "Choose a barcode and read layout.");
+    setValidValues(arg2, "10x stLFR custom");
+    addArgument(parser, arg2);
     // Add options and advanced options. The latter are only visible in the full help.
     addOptionsWhitelist(parser, options);
     addAdvancedOptionsWhitelist(parser, options);
